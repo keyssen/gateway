@@ -1,0 +1,18 @@
+server:
+  port: 8090
+
+spring:
+  cloud:
+    gateway:
+      mvc:
+        routes:
+          - id: reader-service
+            uri: http://localhost:8080
+            predicates:
+              - Path=/library/api/readers/**
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
