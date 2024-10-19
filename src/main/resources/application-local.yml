@@ -21,12 +21,12 @@ spring:
           filters:
             - JwtAuthentication
         - id: reader-service
-          uri: http://app:8080
+          uri: http://localhost:8080
           predicates:
             - Path=/library/api/readers
             - Method=POST
         - id: reader-service
-          uri: http://app:8080
+          uri: http://localhost:8080
           predicates:
             - Path=/library/api/readers/**
           filters:
