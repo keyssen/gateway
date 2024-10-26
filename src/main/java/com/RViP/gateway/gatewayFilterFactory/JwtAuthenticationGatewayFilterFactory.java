@@ -31,7 +31,7 @@ public class JwtAuthenticationGatewayFilterFactory extends AbstractGatewayFilter
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
-
+            System.out.println(request);
             if (!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
                 return unauthorized(exchange);
             }
@@ -40,15 +40,16 @@ public class JwtAuthenticationGatewayFilterFactory extends AbstractGatewayFilter
             if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer-")) {
                 return unauthorized(exchange);
             }
-
+            System.out.println(authorizationHeader);
             String token = authorizationHeader.substring(7);
 
             if (!jwtTokenProvider.validateToken(token)) {
                 return unauthorized(exchange);
             }
-
+            System.out.println(token);
             Claims claims = jwtTokenProvider.getClaimsFromToken(token);
             UUID uuid = UUID.fromString(claims.get("userId").toString());
+            System.out.println(uuid);
             readerService.verifyJwt(uuid);
 
             return chain.filter(exchange);
